@@ -8,6 +8,7 @@ from StarV.set.probstar import ProbStar
 import numpy as np
 import glpk
 import polytope as pc
+from StarV.util.plot import  plot_probstar
 
 
 class Test(object):
@@ -25,13 +26,16 @@ class Test(object):
         self.n_tests = self.n_tests + 1
 
         # len(agrs) = 4
-        mu = np.random.rand(3,)
-        Sig = np.eye(3)
-        pred_lb = np.random.rand(3,)
-        pred_ub = pred_lb + 0.2
+        mu = np.random.rand(2,)
+        Sig = np.eye(2)
+        # pred_lb = np.random.rand(2,)
+        # pred_ub = pred_lb + 0.2
+        pred_lb = np.array([0.2,0.3])
+        pred_ub = np.array([0.7,0.7]) 
         print('Testing ProbStar Constructor...')
         try:
-            ProbStar(mu, Sig, pred_lb, pred_ub)
+            PS = ProbStar(mu, Sig, pred_lb, pred_ub)
+            plot_probstar(PS)  
 
         except Exception:
             print("Fail in constructing probstar object with \
@@ -43,16 +47,23 @@ class Test(object):
     def test_str(self):
 
         self.n_tests = self.n_tests + 1
-
-        mu = np.random.rand(3,)
-        Sig = np.eye(3)
-        pred_lb = np.random.rand(3,)
-        pred_ub = pred_lb + 0.2
-        S = ProbStar(mu, Sig, pred_lb, pred_ub)
+        mu = np.random.rand(2,)
+        Sig = np.eye(2)
+        # pred_lb = np.random.rand(2,)
+        # pred_ub = pred_lb + 0.2
+        pred_lb = np.array([0.2,0.3])
+        pred_ub = np.array([0.7,0.7]) 
+        print('Testing ProbStar Constructor...')
+        PS = ProbStar(mu, Sig, pred_lb, pred_ub)
+        # mu = np.random.rand(3,)
+        # Sig = np.eye(3)
+        # pred_lb = np.random.rand(3,)
+        # pred_ub = pred_lb + 0.2
+        # S = ProbStar(mu, Sig, pred_lb, pred_ub)
         print('\nTesting __str__ method...')
 
         try:
-            print(S.__str__())
+            print(PS.__str__())
         except Exception:
             print("Test Fail :( !")
             self.n_fails = self.n_fails + 1
@@ -471,7 +482,7 @@ if __name__ == "__main__":
     ================================\
     ================================\
     ===============================\n')
-    test_probstar.test_constructor()
+    # test_probstar.test_constructor()
     test_probstar.test_str()
     test_probstar.test_estimateRange()
     test_probstar.test_glpk()

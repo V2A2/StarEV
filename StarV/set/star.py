@@ -159,7 +159,7 @@ class Star(object):
 
         return Cmin, dmin
             
-      
+       
     def estimateRange(self, index):
         """Quickly estimate minimum value of a state x[index]"""
 

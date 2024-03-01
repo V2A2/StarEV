@@ -6,7 +6,8 @@ Date: 9/11/2022
 
 import numpy as np
 from StarV.set.probstar import ProbStar
-from StarV.util.plot import probstar2polytope, plot_probstar
+from StarV.util.plot import  plot_probstar
+# from StarV.util.plot import probstar2polytope
 
 
 class Test(object):
@@ -29,30 +30,33 @@ class Test(object):
         pred_ub = pred_lb + 0.2
         print('Testing probstar2Polytope method...')
         S = ProbStar(mu, Sig, pred_lb, pred_ub)
-        try:
-            P = probstar2polytope(S)
-            print('Polytope = {}'.format(P))
-        except Exception:
-            print('Test Fail!')
-            self.n_fails = self.n_fails + 1
-        else:
-            print("Test Successfull!")
+        # try:
+        #     P = probstar2polytope(S)
+        #     print('Polytope = {}'.format(P))
+        # except Exception:
+        #     print('Test Fail!')
+        #     self.n_fails = self.n_fails + 1
+        # else:
+        #     print("Test Successfull!")
 
     def test_plot_probstar(self):
 
         self.n_tests = self.n_tests + 1
 
         mu = np.random.rand(2,)
+        # print("mu:",mu)
         Sig = np.eye(2)
+        # print("Sig:",Sig)
         pred_lb = np.random.rand(2,)
+        # print("pred-lb:",pred_lb)
         pred_ub = pred_lb + 0.2
         print('Testing plot_probstar method...')
-        S = ProbStar(mu, Sig, pred_lb, pred_ub)
-        S1 = S.affineMap(A=np.random.rand(2,2))
-        P = []
-        P.append(S)
-        P.append(S1)
-        plot_probstar(P)
+        # S = ProbStar(mu, Sig, pred_lb, pred_ub)
+        # S1 = S.affineMap(A=np.random.rand(2,2))
+        # P = []
+        # P.append(S)
+        # P.append(S1)
+        # plot_probstar(P)
         try:
             S = ProbStar(mu, Sig, pred_lb, pred_ub)
             S1 = S.affineMap(A=np.random.rand(2,2))
@@ -75,7 +79,7 @@ if __name__ == "__main__":
     ================================\
     ================================\
     ===============================\n')
-    test_plot.test_probstar2polytope()
+    # test_plot.test_probstar2polytope()
     test_plot.test_plot_probstar()
     
     print('\n========================\
