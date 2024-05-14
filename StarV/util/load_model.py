@@ -1,6 +1,7 @@
 """
-load module, to load existing networks for testing/evaluation
-Dung Tran, 9/12/2022
+load MCS, building, PDE, Heat, iss, Beam, MNA_1, FOM, MNA_5 model for testing and evaluation
+
+Qing Liu, 05/14/2024
 """
 import os
 from scipy.io import loadmat
