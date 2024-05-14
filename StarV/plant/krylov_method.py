@@ -1,3 +1,10 @@
+"""
+Krylov methond using arnoldi iteration
+
+Qing Liu, 05/14/2024
+"""
+
+
 # from scipy.sparse.linalg import norm 
 import numpy as np
 np.set_printoptions(precision=4)
