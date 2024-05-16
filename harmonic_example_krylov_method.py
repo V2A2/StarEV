@@ -4,9 +4,9 @@ np.set_printoptions(precision=4)
 from scipy.linalg import expm
 from numpy.linalg import norm
 from StarV.set.star import Star
-from StarV.plant.krylov_method import simKrylov, simReachKrylov,arnoldi
+from StarV.plant.krylov_arnoldi import simKrylov, simReachKrylov,arnoldi
 import math
-from StarV.util.plot1 import  plot_probstar,plot_star
+from StarV.util.plot import  plot_probstar,plot_star
 import copy
 
 # ----------------test example 1: x0 is array 

@@ -5,7 +5,7 @@
 
 from StarV.set.probstar import ProbStar
 import numpy as np
-from StarV.util.load_all_benchmark import load_mcs_model
+from StarV.util.load_model import load_mcs_model
 import time
 from StarV.plant.lode import LODE
 from StarV.set.probstar import ProbStar
