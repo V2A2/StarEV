@@ -1,7 +1,6 @@
 """
-load MCS, building, PDE, Heat, iss, Beam, MNA_1, FOM, MNA_5 model for testing and evaluation
-
-Qing Liu, 05/14/2024
+load module, to load existing networks for testing/evaluation
+Dung Tran, 9/12/2022
 """
 import os
 from scipy.io import loadmat
@@ -292,90 +291,54 @@ def load_building_model():
     """Load LODE building model"""
 
     cur_path = os.path.dirname(__file__)
-    # print("cur_path1:",cur_path)
     cur_path = cur_path + '/data/lodes/build.mat' 
-    #/home/qing/Documents/Verifi_Starset/StarV/StarV/util/data/lodes/build.mat
-    # print("cur_path2:",cur_path)
     mat_contents = loadmat(cur_path)
-    # print('load success')
     A = mat_contents['A']
     A = convert_to_numpy(A)
-    # print("A_type:",type(A))
     B = mat_contents['B']
     B = convert_to_numpy(B)
-    # print("B_type:",type(B))
-    # print("B:",B)
     C = mat_contents['C']
     C = convert_to_numpy(C)
-    # print("C:",C)
 
     plant = LODE(A, B,C)
-
-    # print("print_plant:",plant.info())
     return plant
 
 def load_iss_model():
     """Load LODE International State Space Model"""
     cur_path = os.path.dirname(__file__)
-    # print("cur_path1:",cur_path)
     cur_path = cur_path + '/data/lodes/iss.mat' 
-    # print("cur_path2:",cur_path)
     mat_contents = loadmat(cur_path)
-    # print('load success')
     A = mat_contents['A']
     A = convert_to_numpy(A)
-    # print("A_type",type(A))
     B = mat_contents['B']
     B = convert_to_numpy(B)
-    # print("B_type:",type(B))
-    # print("B:",B)
     C = mat_contents['C']
     C = convert_to_numpy(C)
-    # print("C":,C)
     plant = LODE(A, B, C)
-    # print("print_plant:",plant.info())
     return plant
 
 
 def load_helicopter_model():
     """Load LODE helicopter model"""
     cur_path = os.path.dirname(__file__)
-    # print("cur_path1:",cur_path)
     cur_path = cur_path + '/data/lodes/heli28.mat' 
-    # print("cur_path2:",cur_path)
     mat_contents = loadmat(cur_path)
-    # print('load success')
     A = mat_contents['A']
-    # print("A_type:",type(A))
-    # print("A:",A)
     A = convert_to_numpy(A)
     plant = LODE(A)
-    # print("print_plant:",plant.info())
     return plant
    
 
 def load_MNA5_model():
     """Load LODE MNA5 model"""
     cur_path = os.path.dirname(__file__)
-    # print("cur_path1:",cur_path)
     cur_path = cur_path + '/data/lodes/MNA_5.mat' 
-    # print("cur_path2:",cur_path)
     mat_contents = loadmat(cur_path)
-    # print('load success')
     A = mat_contents['A']
     B = mat_contents['B']
-    # print("A_type:",type(A))
-    # print("A:",A)
     A = convert_to_numpy(A)
-    # print("A_type:",type(A))
-    # print("A:",A)
     B = convert_to_numpy(B)
-    # print("B:",B)
     plant = LODE(A,B)
-    # print("print_plant:",plant.info())
-    # plant.compute_gA_gB(dt=0.1)
-    # print('\ngA = {}'.format(plant.gA))
-    # print('\ngB = {}'.format(plant.gB))
 
     return plant
 
@@ -384,28 +347,52 @@ def load_MNA5_model():
 def load_mcs_model():
     """Load LODE MCS model"""
     cur_path = os.path.dirname(__file__)
-    # print("cur_path1:",cur_path)
     cur_path = cur_path + '/data/lodes/mcs.mat' 
-    # print("cur_path2:",cur_path)
     mat_contents = loadmat(cur_path)
-    # print('load success')
     A = mat_contents['A']
     B = mat_contents['B']
-    # print("A_type:",type(A))
-    # print("A:",A)
     A = convert_to_numpy(A)
-    # print("A_type:",type(A))
-    # print("A:",A)
     B = convert_to_numpy(B)
-    # print("B:",B)
     C = mat_contents['C']
     C = convert_to_numpy(C)
-    # print("C":,C)
     plant = LODE(A, B, C)
-    # print("print_plant:",plant.info())
-    # plant.compute_gA_gB(dt=0.1)
-    # print('\ngA = {}'.format(plant.gA))
-    # print('\ngB = {}'.format(plant.gB))
+
+    return plant
+
+def load_heat_model():
+    """Load LODE HEAT model"""
+    cur_path = os.path.dirname(__file__)
+    cur_path = cur_path + '/data/lodes/heat.mat' 
+    mat_contents = loadmat(cur_path)
+    A = mat_contents['A']
+    B = mat_contents['B']
+    A = convert_to_numpy(A)
+    B = convert_to_numpy(B)
+    C = mat_contents['C']
+    C = convert_to_numpy(C)
+    plant = LODE(A, B, C)
+    return plant
+
+
+def load_beam_model():
+    """Load LODE BEAM model"""
+    cur_path = os.path.dirname(__file__)
+    cur_path = cur_path + '/data/lodes/beam.mat' 
+    mat_contents = loadmat(cur_path)
+    A = mat_contents['A']
+    B = mat_contents['B']
+    A = convert_to_numpy(A)
+    B = convert_to_numpy(B)
+    C = mat_contents['C']
+    C = convert_to_numpy(C)
+
+    plant = LODE(A, B, C)
+
+
+    return plant
+    C = mat_contents['C']
+    C = convert_to_numpy(C)
+    plant = LODE(A, B, C)
 
     return plant
 
@@ -413,56 +400,30 @@ def load_mcs_model():
 def load_pde_model():
     """Load LODE PDE model"""
     cur_path = os.path.dirname(__file__)
-    # print("cur_path1:",cur_path)
     cur_path = cur_path + '/data/lodes/pde.mat' 
-    # print("cur_path2:",cur_path)
     mat_contents = loadmat(cur_path)
-    # print('load success')
     A = mat_contents['A']
     B = mat_contents['B']
-    # print("A_type:",type(A))
-    # print("A:",A)
     A = convert_to_numpy(A)
-    # print("A_type:",type(A))
-    # print("A:",A)
     B = convert_to_numpy(B)
-    # print("B:",B)
     C = mat_contents['C']
     C = convert_to_numpy(C)
-    # print("C":,C)
     plant = LODE(A, B, C)
-    # print("print_plant:",plant.info())
-    # plant.compute_gA_gB(dt=0.1)
-    # print('\ngA = {}'.format(plant.gA))
-    # print('\ngB = {}'.format(plant.gB))
 
     return plant
 
 def load_fom_model():
     """Load LODE FOM model"""
     cur_path = os.path.dirname(__file__)
-    # print("cur_path1:",cur_path)
     cur_path = cur_path + '/data/lodes/fom.mat' 
-    # print("cur_path2:",cur_path)
     mat_contents = loadmat(cur_path)
-    # print('load success')
     A = mat_contents['A']
     B = mat_contents['B']
-    # print("A_type:",type(A))
-    # print("A:",A)
     A = convert_to_numpy(A)
-    # print("A_type:",type(A))
-    # print("A:",A)
     B = convert_to_numpy(B)
-    # print("B:",B)
     C = mat_contents['C']
     C = convert_to_numpy(C)
-    # print("C":,C)
     plant = LODE(A, B, C)
-    # print("print_plant:",plant.info())
-    # plant.compute_gA_gB(dt=0.1)
-    # print('\ngA = {}'.format(plant.gA))
-    # print('\ngB = {}'.format(plant.gB))
 
     return plant
 
@@ -470,82 +431,45 @@ def load_fom_model():
 def load_MNA1_model():
     """Load LODE MNA1 model"""
     cur_path = os.path.dirname(__file__)
-    # print("cur_path1:",cur_path)
     cur_path = cur_path + '/data/lodes/MNA_1.mat' 
-    # print("cur_path2:",cur_path)
     mat_contents = loadmat(cur_path)
-    # print('load success')
     A = mat_contents['A']
     B = mat_contents['B']
-    # print("A_type:",type(A))
-    # print("A:",A)
     A = convert_to_numpy(A)
-    # print("A_type:",type(A))
-    # print("A:",A)
     B = convert_to_numpy(B)
-    # print("B:",B)
     plant = LODE(A, B)
-    # print("print_plant:",plant.info())
-    # plant.compute_gA_gB(dt=0.1)
-    # print('\ngA = {}'.format(plant.gA))
-    # print('\ngB = {}'.format(plant.gB))
 
     return plant
 
 def load_heat_model():
     """Load LODE HEAT model"""
     cur_path = os.path.dirname(__file__)
-    # print("cur_path1:",cur_path)
     cur_path = cur_path + '/data/lodes/heat.mat' 
-    # print("cur_path2:",cur_path)
     mat_contents = loadmat(cur_path)
-    # print('load success')
     A = mat_contents['A']
     B = mat_contents['B']
-    # print("A_type:",type(A))
-    # print("A:",A)
     A = convert_to_numpy(A)
-    # print("A_type:",type(A))
-    # print("A:",A)
     B = convert_to_numpy(B)
-    # print("B:",B)
     C = mat_contents['C']
     C = convert_to_numpy(C)
-    # print("C":,C)
     plant = LODE(A, B, C)
-    # print("print_plant:",plant.info())
-    # plant.compute_gA_gB(dt=0.1)
-    # print('\ngA = {}'.format(plant.gA))
-    # print('\ngB = {}'.format(plant.gB))
-
     return plant
 
 
 def load_beam_model():
     """Load LODE BEAM model"""
     cur_path = os.path.dirname(__file__)
-    # print("cur_path1:",cur_path)
     cur_path = cur_path + '/data/lodes/beam.mat' 
-    # print("cur_path2:",cur_path)
     mat_contents = loadmat(cur_path)
-    # print('load success')
     A = mat_contents['A']
     B = mat_contents['B']
-    # print("A_type:",type(A))
-    # print("A:",A)
     A = convert_to_numpy(A)
-    # print("A_type:",type(A))
-    # print("A:",A)
     B = convert_to_numpy(B)
-    # print("B:",B)
     C = mat_contents['C']
     C = convert_to_numpy(C)
-    # print("C":,C)
+
     plant = LODE(A, B, C)
-    # print("print_plant:",plant.info())
-    # plant.compute_gA_gB(dt=0.1)
-    # print('\ngA = {}'.format(plant.gA))
-    # print('\ngB = {}'.format(plant.gB))
+
 
     return plant
 

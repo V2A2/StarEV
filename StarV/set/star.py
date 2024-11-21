@@ -13,8 +13,6 @@ from scipy.optimize import linprog
 from scipy.linalg import block_diag
 import glpk
 import polytope as pc
-
-
 import copy
 
 
@@ -83,6 +81,32 @@ class Star(object):
             self.pred_lb = pred_lb
             self.pred_ub = pred_ub
 
+        elif len(args) == 3:
+            [V, C, d] = copy.deepcopy(args)
+            assert isinstance(V, np.ndarray), 'error: \
+            basis matrix should be a 2D numpy array'
+            assert len(V.shape) == 2, 'error: \
+            basis matrix should be a 2D numpy array'
+            if len(C) != 0:
+                assert len(C.shape) == 2, 'error: \
+                constraint matrix should be a 2D numpy array'
+                assert len(d.shape) == 1, 'error: \
+                constraint vector should be a 1D numpy array'
+                assert V.shape[1] == C.shape[1] + 1, 'error: \
+                Inconsistency between basic matrix and constraint matrix'
+                assert C.shape[0] == d.shape[0], 'error: \
+                Inconsistency between constraint matrix and constraint vector'
+                
+            self.V = V
+            self.C = C
+            self.d = d
+            self.dim = V.shape[0]
+            self.nVars = V.shape[1] - 1
+
+            self.pred_lb = np.array([])
+            self.pred_ub = np.array([])
+
+        
         elif len(args) == 2:  # the most common use
             [lb, ub] = copy.deepcopy(args)
 
@@ -216,7 +240,7 @@ class Star(object):
 
                 min_ = gp.Model()
                 min_.Params.LogToConsole = 0
-                min_.Params.OptimalityTol = 1e-9
+                min_.Params.OptimalityTol = 1e-6
                 if self.pred_lb.size and self.pred_ub.size:
                     x = min_.addMVar(shape=self.nVars, lb=self.pred_lb, ub=self.pred_ub)
                 else:
@@ -245,7 +269,7 @@ class Star(object):
                     b = np.zeros(1)
                 else:
                     A = self.C
-                    b = self.d
+                    b = self.df
 
                 lb = self.pred_lb
                 ub = self.pred_ub
@@ -323,7 +347,7 @@ class Star(object):
 
                 max_ = gp.Model()
                 max_.Params.LogToConsole = 0
-                max_.Params.OptimalityTol = 1e-9
+                max_.Params.OptimalityTol = 1e-6
                 if self.pred_lb.size and self.pred_ub.size:
                     x = max_.addMVar(shape=self.nVars,
                                      lb=self.pred_lb, ub=self.pred_ub)
@@ -450,17 +474,26 @@ class Star(object):
         if A is None and b is not None:
             V = copy.deepcopy(self.V)
             V[:, 0] = V[:, 0] + b
-            new_set = Star(V, self.C, self.d, self.pred_lb, self.pred_ub)
+            if len(self.pred_lb) == 0:
+                new_set = Star(V, self.C, self.d)
+            else:
+                new_set = Star(V, self.C, self.d, self.pred_lb, self.pred_ub)
 
         if A is not None and b is None:
             V = np.matmul(A, self.V)
-            new_set = Star(V, self.C, self.d, self.pred_lb, self.pred_ub)
-
+            if len(self.pred_lb) == 0:
+                new_set = Star(V, self.C, self.d)
+            else:
+                new_set = Star(V, self.C, self.d, self.pred_lb, self.pred_ub)
         if A is not None and b is not None:
             V = np.matmul(A, self.V)
             V[:, 0] = V[:, 0] + b
 
-            new_set = Star(V, self.C, self.d, self.pred_lb, self.pred_ub)
+            if len(self.pred_lb) == 0:
+                new_set = Star(V, self.C, self.d)
+            else:
+                new_set = Star(V, self.C, self.d, self.pred_lb, self.pred_ub)        
+                
         return new_set
 
     def minKowskiSum(self, Y):

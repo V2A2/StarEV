@@ -18,7 +18,7 @@ import glpk
 import polytope as pc
 from StarV.util.minimax_tilting_sampler import TruncatedMVN
 
-
+from scipy.stats import multivariate_normal
 import copy
 
 
@@ -230,6 +230,7 @@ class ProbStar(object):
                 new_Sig = np.matmul(np.matmul(U, new_Sig), np.transpose(U))
 
                 prob, _ = mvn.mvnun(new_lb, new_ub, np.zeros(len(d),), new_Sig)
+                # prob = multivariate_normal.cdf(new_ub, mean=np.zeros(len(d)), cov=new_Sig) - multivariate_normal.cdf(new_lb, mean=np.zeros(len(d)), cov=new_Sig)
 
         return prob
 
@@ -320,7 +321,7 @@ class ProbStar(object):
         assert isinstance(lp_solver, str), 'error: lp_solver is not a string'
 
         f = self.V[index, 1:self.nVars + 1]
-        if (f == 0).all():
+        if (f == 0 ).all():
             xmin = self.V[index, 0]
         else:
             if lp_solver == 'gurobi':  # using gurobi is the preferred choice

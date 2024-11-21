@@ -68,7 +68,7 @@ class Test(object):
         pred_lb = np.random.rand(3,)
         pred_ub = pred_lb + 0.2
         S = ProbStar(mu, Sig, pred_lb, pred_ub)
-        print('\nTesting estimateMin method...')
+        print('\nTesting estimateRangemethod...')
 
         try:
             min_val, max_val = S.estimateRange(0)
@@ -442,6 +442,7 @@ class Test(object):
     def test_sampling(self):
 
         self.n_tests = self.n_tests + 1
+        print('\nTesting sampling ...')
 
         try:
 
@@ -464,30 +465,6 @@ class Test(object):
             print('Test Successfull!')
 
 
-    def test_concatenate_with_vector(self):
-
-        self.n_tests = self.n_tests + 1
-
-        try:
-            S = ProbStar.rand(2, 3)
-            v = np.random.rand(3,)
-            S1 = S.concatenate_with_vector(v)
-            v2 = []
-            S2 = S.concatenate_with_vector(v2)
-            print('\nBefore Concatenation: ')
-            S.__str__()
-            print('\nAfter Concatenation:')
-            S1.__str__()
-            S2.__str__()
-
-        except Exception:
-            print('Test Fails')
-            self.n_fails = self.n_fails + 1
-
-        else:
-            print('Test Sucessfull!')
-
-
 if __name__ == "__main__":
 
     test_probstar = Test()
@@ -498,6 +475,7 @@ if __name__ == "__main__":
     test_probstar.test_constructor()
     test_probstar.test_str()
     test_probstar.test_estimateRange()
+    test_probstar.test_estimateRanges()
     test_probstar.test_glpk()
     test_probstar.test_getMin()
     test_probstar.test_getMax()
@@ -506,12 +484,10 @@ if __name__ == "__main__":
     test_probstar.test_isEmptySet()
     test_probstar.test_updatePredicateRanges()
     test_probstar.test_addConstraint()
-    test_probstar.test_rand()
-    test_probstar.test_estimateRanges()
-    test_probstar.test_estimateProbability()
     test_probstar.test_addMultipleConstraints()
+    test_probstar.test_rand()
+    test_probstar.test_estimateProbability()
     test_probstar.test_sampling()
-    test_probstar.test_concatenate_with_vector()
     print('\n========================\
     =================================\
     =================================\

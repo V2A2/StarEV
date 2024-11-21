@@ -113,6 +113,7 @@ def checkSafetyProbStar(*args):
         prob = 0.0
     else:
         prob = P.estimateProbability()
+        # print("prob:",prob)
         
     return P, prob
 

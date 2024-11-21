@@ -8,6 +8,7 @@ from StarV.plant.lode import LODE
 import numpy as np
 from StarV.set.star import Star
 from StarV.set.probstar import ProbStar
+from StarV.util.plot import  plot_probstar
 
 class Test(object):
 
@@ -133,6 +134,7 @@ class Test(object):
             U = ProbStar.rand(2)
             X = plant.multiStepReach(dt=0.1, X0=X0, U=U, k=k)
             print('X = {}'.format(X))
+            plot_probstar(X)
         except Exception:
             print('Test Fail!')
             self.n_fails = self.n_fails + 1
@@ -149,8 +151,8 @@ if __name__ == "__main__":
     # test_lode.test_LODE_constructor()
     # test_lode.test_LODE_rand()
     # test_lode.test_LODE_compute_gA_gB()
-    # test_lode.test_LODE_stepReach()
-    test_lode.test_LODE_multiStepReach()
+    test_lode.test_LODE_stepReach()
+    # test_lode.test_LODE_multiStepReach()
     
     print('\n========================\
     =================================\
