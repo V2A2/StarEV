@@ -73,7 +73,7 @@ def quantiverify_RecurrentNN(numCores):
     )
 
     # save verification results
-    path = "artifacts/HSCC2024/RecurrentNet"
+    path = "artifacts/JOURNAL2025/RecurrentNet"
     if not os.path.exists(path):
         os.makedirs(path)
 

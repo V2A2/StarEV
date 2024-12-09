@@ -1,6 +1,6 @@
 """
 RecurrentLayer layer class
-Bryan Duong, 6/27/2024
+Bryan Duong, 12/09/2024
 """
 
 import numpy as np
@@ -51,34 +51,62 @@ class RecurrentLayer(object):
         self.Woh = Woh
         self.bo = bo
         self.in_dim = Whx.shape[1]
+        self.hidden_dim = Whh.shape[0]
         self.out_dim = Woh.shape[0]
-        self.fh = fh
-        self.fo = fo
 
-    def evaluate(self, x: ProbStar, step: int) -> list:
+        if fh == "ReLU":
+            self.fh = ReLULayer()
+        elif fh == "LeakyReLU":
+            self.fh = LeakyReLULayer()
+        elif fh == "SatLin":
+            self.fh = SatLinLayer()
+        elif fh == "Satlins":
+            self.fh = SatLinsLayer()
+        elif fh == "fullyConnected":
+            self.fh = fullyConnectedLayer()
+        else:
+            self.fh = "purelin"
+
+        if fo == "ReLU":
+            self.fo = ReLULayer()
+        elif fo == "LeakyReLU":
+            self.fo = LeakyReLULayer()
+        elif fo == "SatLin":
+            self.fo = SatLinLayer()
+        elif fo == "Satlins":
+            self.fo = SatLinsLayer()
+        elif fo == "fullyConnected":
+            self.fo = fullyConnectedLayer()
+        else:
+            self.fo = "purelin"
+
+    def evaluate(self, x) -> list:
         """
         Evaluates the RecurrentLayer model for a given input and number of steps.
 
         Args:
-            x (ProbStar): The input Probstar.
+            x: The input Probstar.
             step (int): The number of steps to evaluate.
 
         Returns:
             list: The list of outputs for each step.
         """
-        if not isinstance(x, ProbStar):
-            raise Exception("error: input is not a ProbStar set, type of input = {}".format(type(x)))
-        if not isinstance(step, int):
-            raise Exception("error: step is not an integer, type of step = {}".format(type(step)))
         output = []
-        for i in step:
+        h = np.zeros(self.hidden_dim)
+        step = len(x)
+        for i in range(0, step):
             """
             h = Whh @ h + Whx @ x + bh
             x = Woh @ h + bo
             """
-            h = h.affineMap(self.Whh, self.bh) + x.affineMap(self.Whx)
-            o = h.affineMap(self.Woh, self.bo)
-            output.append(ReLULayer.evaluate(o))
+
+            h = self.Whh @ h + self.Whx @ x[i] + self.bh
+            if self.fh is not "purelin":
+                h = self.fh.evaluate(h)
+            o = self.Woh @ h + self.bo
+            if self.fo is not "purelin":
+                o = self.fo.evaluate(o)
+            output.append(o)
         return output
 
     @staticmethod

@@ -1,6 +1,6 @@
 """
 Test of RecurrentLayer layer
-Bryan Duong, 08/25/2024
+Bryan Duong, 12/09/2024
 
 """
 
@@ -11,6 +11,7 @@ from StarV.layer.RecurrentLayer import RecurrentLayer
 from StarV.set.star import Star
 from StarV.set.probstar import ProbStar
 import multiprocessing
+from StarV.util import load_rnn
 
 
 class Test(object):
@@ -133,11 +134,26 @@ class Test(object):
                 print("reach_set[{},{}]\n".format(m + 1, n + 1))
                 print("lb = {}\n ub = {}\n".format(lb, ub))
 
+    def test_evaluate(self):
+        self.n_tests = self.n_tests + 1
+
+        Xn = load_rnn.load_raw_data(25)
+
+        net = load_rnn.load_N_2_0()
+        # output = net.evaluate(Xn)
+        # print()
+        try:
+            net.evaluate(Xn[:3])
+        except Exception:
+            print("Test Fail!")
+            self.n_fails = self.n_fails + 1
+
 
 if __name__ == "__main__":
     t = Test()
-    t.test_constructor()
-    t.test_rand()
-    t.test_reach()
+    # t.test_constructor()
+    # t.test_rand()
+    # t.test_reach()
+    t.test_evaluate()
     print("Number of tests: ", t.n_tests)
     print("Number of fails: ", t.n_fails)

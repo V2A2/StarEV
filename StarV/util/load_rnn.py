@@ -1,7 +1,7 @@
 """
 Load rnn network and input data from matlab (nvv)
 Author: Bryan Duong
-Date: 11/18/2024
+Date: 12/09/2024
 """
 
 # Add the parent directory to sys.path
@@ -22,6 +22,13 @@ from StarV.layer.RecurrentLayer import RecurrentLayer
 from StarV.layer.fullyConnectedLayer import fullyConnectedLayer
 
 nnv_path = "/home/bryan/Desktop/nnv/examples/artifact/HSCC2023/"
+
+
+def load_raw_data(M=25):
+    path_input = nnv_path + "/N_2_0/points.mat"
+    input_data = scipy.io.loadmat(path_input)
+    Xn = input_data["pickle_data"]
+    return Xn[:M]
 
 
 def load_data_points(index=0, M=25):
